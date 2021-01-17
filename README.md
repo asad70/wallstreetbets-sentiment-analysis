@@ -1,6 +1,8 @@
 # r/Wallstreetbets sentiment analysis
 This program finds the most mentioned ticker on r/wallstreetbets and uses Vader SentimentIntensityAnalyzer to calculate the sentiment analysis.
 
+Program that analyzes reddit sentiment: https://github.com/asad70/reddit-sentiment-analysis
+
 # About r/wallstreetbets
 WSB is a subreddit community on Reddit where participants discuss stock and options trading. It's aggressive trading strategies revolve around highly speculative, leveraged options trading. Some of the members tend to use borrowed capital, like student loans or margin.
 

@@ -18,8 +18,6 @@ import time
 import pandas as pd
 import matplotlib.pyplot as plt
 import squarify
-from matplotlib import rc
-import numpy as np
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 start_time = time.time()

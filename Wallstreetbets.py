@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 import squarify
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+
 def main():
     # set the program parameters
     limit = 500      # define the limit
@@ -30,7 +31,7 @@ def main():
     posts, count, c_analyzed, tickers, titles, a_comments = 0, 0, 0, {}, [], {}
 
     start_time = time.time()
-    reddit = reddit_login()
+    reddit = reddit_login("Comment Extraction", "cyCpjEI0IKT5HA", "vFo8q24cVc9j8Z7YluYr6zv4Tl0Hmg", "StraightFail815", "$D?x4Um.<r#_@?V")
     subreddit = configure_reddit_subreddit(reddit)
     hot_python = subreddit.hot()    # sorting posts by hot
     extract_comments_symbols(hot_python, post_flairs, titles, posts, limit, upvotes, tickers, a_comments, count, c_analyzed)
@@ -38,18 +39,18 @@ def main():
     # sorts the dictionary
     symbols = dict(sorted(tickers.items(), key=lambda item: item[1], reverse = True))
     top_picks = list(symbols.keys())[0:picks]
-    time = (time.time() - start_time)
+    current_time = (time.time() - start_time)
 
-    print_results(time, c_analyzed, posts, picks, top_picks, symbols)
+    print_results(current_time, c_analyzed, posts, picks, top_picks, symbols, titles)
     scores = apply_sentiment_analysis(symbols, picks_ayz, a_comments)
     print_sentiment_analysis(picks_ayz, scores)
 
-def reddit_login():
-    return praw.Reddit(user_agent="Comment Extraction",
-        client_id="cyCpjEI0IKT5HA",
-        client_secret="vFo8q24cVc9j8Z7YluYr6zv4Tl0Hmg",
-        username="StraightFail815",
-        password="$D?x4Um.<r#_@?V")
+def reddit_login(user, clientid, clientsecret, usernme, passwrd):
+    return praw.Reddit(user_agent=user,
+        client_id=clientid,
+        client_secret=clientsecret,
+        username=usernme,
+        password=passwrd)
 
 def configure_reddit_subreddit(reddit):
     return reddit.subreddit('wallstreetbets')
@@ -81,7 +82,7 @@ def extract_comments_symbols(hot_python, post_flairs, titles, posts, limit, upvo
                                 count += 1    
 
 
-def print_results(time, c_analyzed, posts, picks, top_picks, symbols):
+def print_results(time, c_analyzed, posts, picks, top_picks, symbols, titles):
     # print top picks
     print("It took {t:.2f} seconds to analyze {c} comments in {p} posts.\n".format(t=time, c=c_analyzed, p=posts))
     print("Posts analyzed:")

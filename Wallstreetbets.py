@@ -33,7 +33,7 @@ class WallStreetBets:
         self.scores = scores
 
 
-def analyze():
+def analyze(clientid, clientsecret, usernme, passwrd):
     # set the program parameters
     limit = 500      # define the limit
     upvotes = 2     # define # of upvotes, comment is considered if upvotes exceed this #
@@ -43,7 +43,7 @@ def analyze():
     posts, count, c_analyzed, tickers, titles, a_comments = 0, 0, 0, {}, [], {}
 
     start_time = time.time()
-    reddit = reddit_login("Comment Extraction", "cyCpjEI0IKT5HA", "vFo8q24cVc9j8Z7YluYr6zv4Tl0Hmg", "StraightFail815", "$D?x4Um.<r#_@?V")
+    reddit = reddit_login("Comment Extraction", clientid, clientsecret, usernme, passwrd)
     subreddit = configure_reddit_subreddit(reddit)
     hot_python = subreddit.hot()    # sorting posts by hot
     extract_comments_symbols(hot_python, post_flairs, titles, posts, limit, upvotes, tickers, a_comments, count, c_analyzed)

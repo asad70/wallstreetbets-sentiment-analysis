@@ -17,6 +17,14 @@ In order to run this container you'll need docker installed.
 
 ### Usage
 
+#### Container Startup
+
+List the different parameters available to your container
+
+```shell
+docker run -p 5000:5000 -e CLIENT_ID= -e CLIENT_SECRET= -e USERNAME= -e PASSWORD= restfulleo/wallstreetbets-sentiment-analysis
+```
+
 #### Environment Variables
 
 * `CLIENT_ID` - A client_id from valid reddit account with a developer application setup.

@@ -1,5 +1,7 @@
 FROM python:3.7-slim
 
+EXPOSE 5000
+
 COPY requirements.txt /app/
 WORKDIR /app
 
@@ -10,4 +12,4 @@ COPY . /app
 
 RUN python -m nltk.downloader vader_lexicon
 
-CMD ["python", "Wallstreetbets.py"]
+CMD ["python", "api.py"]

@@ -20,8 +20,20 @@ import matplotlib.pyplot as plt
 import squarify
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+class WallStreetBets:
+    def __init__(self, current_time, c_analyzed, posts, picks, top_picks, symbols, titles, picks_ayz, scores):
+        self.current_time = current_time
+        self.c_analyzed = c_analyzed
+        self.posts = posts
+        self.picks = picks
+        self.top_picks = top_picks
+        self.symbols = symbols
+        self.titles = titles
+        self.picks_ayz = picks_ayz
+        self.scores = scores
 
-def main():
+
+def analyze():
     # set the program parameters
     limit = 500      # define the limit
     upvotes = 2     # define # of upvotes, comment is considered if upvotes exceed this #
@@ -40,10 +52,13 @@ def main():
     symbols = dict(sorted(tickers.items(), key=lambda item: item[1], reverse = True))
     top_picks = list(symbols.keys())[0:picks]
     current_time = (time.time() - start_time)
-
-    print_results(current_time, c_analyzed, posts, picks, top_picks, symbols, titles)
     scores = apply_sentiment_analysis(symbols, picks_ayz, a_comments)
-    print_sentiment_analysis(picks_ayz, scores)
+    
+    WSB = WallStreetBets(current_time, c_analyzed, posts, picks, top_picks, symbols, titles, picks_ayz, scores)
+
+    print_results(WSB)
+    print_sentiment_analysis(WSB)
+    return WSB
 
 def reddit_login(user, clientid, clientsecret, usernme, passwrd):
     return praw.Reddit(user_agent=user,
@@ -80,21 +95,6 @@ def extract_comments_symbols(hot_python, post_flairs, titles, posts, limit, upvo
                                 tickers[word] = 1
                                 a_comments[word] = [comment.body]
                                 count += 1    
-
-
-def print_results(time, c_analyzed, posts, picks, top_picks, symbols, titles):
-    # print top picks
-    print("It took {t:.2f} seconds to analyze {c} comments in {p} posts.\n".format(t=time, c=c_analyzed, p=posts))
-    print("Posts analyzed:")
-    for i in titles: print(i)
-    print(f"\n{picks} most mentioned picks: ")
-    times = []
-    top = []
-    for i in top_picks:
-        print(f"{i}: {symbols[i]}")
-        times.append(symbols[i])
-        top.append(f"{i}: {symbols[i]}")
-    
     
 def apply_sentiment_analysis(symbols, picks_ayz, a_comments):
     # Applying Sentiment Analysis
@@ -116,15 +116,26 @@ def apply_sentiment_analysis(symbols, picks_ayz, a_comments):
             scores[symbol][key]  = "{pol:.3f}".format(pol=scores[symbol][key] )
     return scores
 
-def print_sentiment_analysis(picks_ayz, scores):
+def print_results(WSB):
+    # print top picks
+    print("It took {t:.2f} seconds to analyze {c} comments in {p} posts.\n".format(t=WSB.current_time, c=WSB.c_analyzed, p=WSB.posts))
+    print("Posts analyzed:")
+    for i in WSB.titles: print(i)
+    print(f"\n{WSB.picks} most mentioned picks: ")
+    times = []
+    top = []
+    for i in WSB.top_picks:
+        print(f"{i}: {WSB.symbols[i]}")
+        times.append(WSB.symbols[i])
+        top.append(f"{i}: {WSB.symbols[i]}")
+
+def print_sentiment_analysis(WSB):
     # printing sentiment analysis 
-    print(f"\nSentiment analysis of top {picks_ayz} picks:")
-    df = pd.DataFrame(scores)
+    print(f"\nSentiment analysis of top {WSB.picks_ayz} picks:")
+    df = pd.DataFrame(WSB.scores)
     df.index = ['Bearish', 'Neutral', 'Bullish', 'Total/Compound']
     df = df.T
     print(df)
-
-main()
 
 # Date Visualization
 # most mentioned picks    

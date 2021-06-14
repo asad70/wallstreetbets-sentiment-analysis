@@ -1,9 +1,6 @@
-
 # Docker Container wallstreetbets-sentiment-analysis
 
 A docker container using restful endpoints exposed on port 5000 "/analyze" to gather sentiment analysis on the wsb subreddit.
-* [Check out the main branch for non docker/web version](https://github.com/asad70/wallstreetbets-sentiment-analysis/tree/main)
-
 
 ## Getting Started
 
